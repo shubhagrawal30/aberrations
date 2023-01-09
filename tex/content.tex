@@ -11,7 +11,7 @@ Coefficients of the Zernike polynomials are field-of-view dependent and can be p
 d &= A_\text{defocus} \\
 a &= A_\text{astigmation-c} + i A_\text{astigmation-s} \\
 c &= A_\text{coma-c} + i A_\text{coma-s} \\
-s &= A_\text{spherical} \\
+s &= A_\text{spherical}
 \end{align}
 
 The shape and size of the PSF are then given respectively as:
@@ -33,26 +33,42 @@ In the weak lensing limit,
 \gamma_1 = \Re(Q / S) \Big/ 2 && \gamma_2 = \Im(Q / S) \Big/ 2
 \end{align}
 
+\newpage
 \section{Toy Models} \label{sec:toy_models}
 
 \subsection{Constant coefficients}
+
+\begin{align}
+d &= 10^{-1} \\
+s &= 10^{-2} \\
+a &= 10^{-2} + i \times 3 \times 10^{-3} \\
+c &= 10^{-2} + i \times 3 \times 10^{-3}
+\end{align}
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{figs/20230109_constant/coeff_shear.pdf}
 \includegraphics[width=0.48\textwidth]{figs/20230109_constant/2point.pdf}
 \includegraphics[width=0.48\textwidth]{figs/20230109_constant/3point.pdf}
-\caption{Caption}
+\caption{Constant coefficients.}
 \label{fig:constant}
 \end{figure}
 
+\newpage
 \subsection{Radial dependence on imaginary parts}
+
+\begin{align}
+d &= 10^{-1} \\
+s &= 10^{-2} \\
+a &= 10^{-2} + i \times 3 \times 10^{-3} (x^2+y^2) \\
+c &= 10^{-2} + i \times 3 \times 10^{-3} (x^2+y^2)
+\end{align}
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=\textwidth]{figs/20230109_radial_imag/coeff_shear.pdf}
 \includegraphics[width=0.48\textwidth]{figs/20230109_radial_imag/2point.pdf}
 \includegraphics[width=0.48\textwidth]{figs/20230109_radial_imag/3point.pdf}
-\caption{Caption}
-\label{fig:constant}
+\caption{Radial coefficients.}
+\label{fig:radial}
 \end{figure}
