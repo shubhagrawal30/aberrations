@@ -24,7 +24,7 @@ num_den = 100
 d = np.vectorize(lambda x, y: 1e-1)
 s = np.vectorize(lambda x, y: 1e-2)
 
-a_real, a_imag = np.vectorize(lambda x, y: 1e-2), np.vectorize(lambda x, y: np.sqrt(x**2+y**2) * 3e-3)
+a_real, a_imag = np.vectorize(lambda x, y: 1e-2), np.vectorize(lambda x, y: np.sqrt(x**2+y**2) * 3e-3) #
 a = np.vectorize(lambda x, y: a_real(x, y) + a_imag(x, y) * 1j)
 
 c_real, c_imag = np.vectorize(lambda x, y: 1e-2), np.vectorize(lambda x, y: np.sqrt(x**2+y**2) * 3e-3)
@@ -32,15 +32,21 @@ c = np.vectorize(lambda x, y: c_real(x, y) + c_imag(x, y) * 1j)
 
 # saving stuff
 subfolder = "20230109_radial_imag/"
+# subfolder = "20230109_constant/"
 out_dir = f"./out/{subfolder}"
 plot_dir = f"./figs/{subfolder}"
 Path(out_dir).mkdir(parents=True, exist_ok=True)
 Path(plot_dir).mkdir(parents=True, exist_ok=True)
 
 # plotting stuff
-coeffs = [d, a_real, a_imag, s, c_real, c_imag]
-# labels = [r"$d$", r"$\Re(a)$", r"$\Im(a)$", r"$s$", r"$\Re(c)$", r"$\Im(c)$"]
-labels = [r"$d$", r"$\Re(a)$", r"$\Im(a)\sim \sqrt{x^2+y^2}$", r"$s$", r"$\Re(c)$", r"$\Im(c)\sim \sqrt{x^2+y^2}$"]
+coeffs = [d, a_real, a_imag, s, c_real, c_imag, \
+         np.vectorize(lambda x, y : np.real(Q(x, y))), \
+          np.vectorize(lambda x, y : np.imag(Q(x, y))), lambda x, y : S(x, y)]
+labels = [r"$d$", r"$\Re(a)$", r"$\Im(a) \sim \sqrt{x^2+y^2}$", r"$s$", r"$\Re(c)$", r"$\Im(c)\sim \sqrt{x^2+y^2}$", \
+          r"$\Re(Q)$", r"$\Im(Q)$", r"S"]
+# labels = [r"$d$", r"$\Re(a)$", r"$\Im(a)$", r"$s$", r"$\Re(c)$", r"$\Im(c)$", \
+          # r"$\Re(Q)$", r"$\Im(Q)$", r"S"]
+thin_gal = 2
 
 # 3pt stuff
 rmin = 1
@@ -88,10 +94,11 @@ RA_grid, Dec_grid = np.meshgrid(np.linspace(*RA_range), np.linspace(*Dec_range))
 
 print("plotting coefficents and shear field")
 # plot coefficients
-fig = plt.figure(figsize=(12, 5))
+fig = plt.figure(figsize=(20, 8))
 plt.rcParams.update({'font.size': 8})
-gs = fig.add_gridspec(2, 24)
-axs = list(map(fig.add_subplot, [gs[0, 4*y:4*y+3] for y in range(3)] + [gs[1, 4*y:4*y+3] for y in range(3)]))
+gs = fig.add_gridspec(3, 24)
+axs = list(map(fig.add_subplot, [gs[0, 4*y:4*y+3] for y in range(3)] + \
+               [gs[1, 4*y:4*y+3] for y in range(3)] + [gs[2, 4*y:4*y+3] for y in range(3)]))
 for ax, coeff, label in zip(axs, coeffs, labels):
     f = ax.imshow(coeff(RA_grid, Dec_grid), origin="lower", extent=[*RA_range, *Dec_range])
     cbar = fig.colorbar(f, orientation='horizontal')
@@ -100,12 +107,12 @@ for ax, coeff, label in zip(axs, coeffs, labels):
     ax.grid()
 
 # plot shear field
-ax = fig.add_subplot(gs[:, 13:])
-for ra, de, a_ep, b_ep, phi, gam in rand_coords:
+ax = fig.add_subplot(gs[:, 11:])
+for ra, de, a_ep, b_ep, phi, gam in rand_coords[::thin_gal]:
     ra, de, a_ep, b_ep, phi = np.real([ra, de, a_ep, b_ep, phi])
     # Create an ellipse patch with a given size centered at the RA, Dec position
-    plt.plot(*getLineParameters(ra, de, gam), color="black", lw=1)
-    ellipse = Ellipse(xy=(ra, de), width=a_ep, height=b_ep, angle=np.degrees(phi), alpha=0.5)
+    plt.plot(*getLineParameters(ra, de, gam), color="black", lw=2)
+    ellipse = Ellipse(xy=(ra, de), width=a_ep, height=b_ep, angle=np.degrees(phi), alpha=0.2)
     # Add the ellipse patch to the axes
     ax.add_patch(ellipse)
 
