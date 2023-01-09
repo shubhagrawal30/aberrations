@@ -31,7 +31,7 @@ c_real, c_imag = np.vectorize(lambda x, y: 1e-2), np.vectorize(lambda x, y: 3e-3
 c = np.vectorize(lambda x, y: c_real(x, y) + c_imag(x, y) * 1j)
 
 # saving stuff
-subfolder = "20230109_constant/"
+subfolder = "20230109_radial_imag/"
 out_dir = f"./out/{subfolder}"
 plot_dir = f"./figs/{subfolder}"
 Path(out_dir).mkdir(parents=True, exist_ok=True)
@@ -39,8 +39,8 @@ Path(plot_dir).mkdir(parents=True, exist_ok=True)
 
 # plotting stuff
 coeffs = [d, a_real, a_imag, s, c_real, c_imag]
-labels = [r"$d$", r"$\Re(a)$", r"$\Im(a)$", r"$s$", r"$\Re(c)$", r"$\Im(c)$"]
-# labels = [r"$d$", r"$\Re(a)$", r"$\Im(a)\sim \sqrt{x^2+y^2}$", r"$s$", r"$\Re(c)$", r"$\Im(c)\sim \sqrt{x^2+y^2}$"]
+# labels = [r"$d$", r"$\Re(a)$", r"$\Im(a)$", r"$s$", r"$\Re(c)$", r"$\Im(c)$"]
+labels = [r"$d$", r"$\Re(a)$", r"$\Im(a)\sim \sqrt{x^2+y^2}$", r"$s$", r"$\Re(c)$", r"$\Im(c)\sim \sqrt{x^2+y^2}$"]
 
 # 3pt stuff
 rmin = 1
@@ -278,6 +278,7 @@ ax2.grid()
 # ax.set_yscale("log")
 ax1.legend()
 ax2.legend()
+ax2.set_xlabel("separation (arcmin)")
 plt.savefig(plot_dir + '2point.png')
 plt.savefig(plot_dir + '2point.pdf', dpi=300)
 # plt.show()
