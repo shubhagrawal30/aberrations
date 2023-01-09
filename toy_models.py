@@ -24,10 +24,10 @@ num_den = 100
 d = np.vectorize(lambda x, y: 1e-1)
 s = np.vectorize(lambda x, y: 1e-2)
 
-a_real, a_imag = np.vectorize(lambda x, y: 1e-2), np.vectorize(lambda x, y: 3e-3) # np.sqrt(x**2+y**2) * 3e-3)
+a_real, a_imag = np.vectorize(lambda x, y: 1e-2), np.vectorize(lambda x, y: np.sqrt(x**2+y**2) * 3e-3)
 a = np.vectorize(lambda x, y: a_real(x, y) + a_imag(x, y) * 1j)
 
-c_real, c_imag = np.vectorize(lambda x, y: 1e-2), np.vectorize(lambda x, y: 3e-3) # np.sqrt(x**2+y**2) * 3e-3)
+c_real, c_imag = np.vectorize(lambda x, y: 1e-2), np.vectorize(lambda x, y: np.sqrt(x**2+y**2) * 3e-3)
 c = np.vectorize(lambda x, y: c_real(x, y) + c_imag(x, y) * 1j)
 
 # saving stuff
