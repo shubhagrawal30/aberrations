@@ -76,3 +76,66 @@ c &= 10^{-2} + i \times 3 \times 10^{-3} (x^2+y^2)
 \caption{Radial coefficients.}
 \label{fig:radial}
 \end{figure}
+
+\newpage
+\subsection{Constant coefficients (regular field-of-view, high number density)}
+
+\begin{align}
+\Delta \alpha \times \Delta \delta &= 1.2 \degree \times 1.2 \degree \\
+n_\star &= 1.2 \times 1.2 \times 10^4 \\
+d &= 10^{-1} \\
+s &= 10^{-2} \\
+a &= 10^{-2} + i \times 3 \times 10^{-3} \\
+c &= 10^{-2} + i \times 3 \times 10^{-3}
+\end{align}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{figs/20230110_constant/coeff_shear.pdf}
+\includegraphics[width=0.48\textwidth]{figs/20230110_constant/2point.pdf}
+\includegraphics[width=0.48\textwidth]{figs/20230110_constant/3point.pdf}
+\caption{Constant coefficients. PSF number thinned by factor of 100.}
+\label{fig:constant}
+\end{figure}
+
+\newpage
+\subsection{Radial dependence on imaginary parts (regular field-of-view, high number density)}
+
+\begin{align}
+\Delta \alpha \times \Delta \delta &= 1.2 \degree \times 1.2 \degree \\
+n_\star &= 1.2 \times 1.2 \times 10^4 \\
+d &= 10^{-1} \\
+s &= 10^{-2} \\
+a &= 10^{-2} + i \times 3 \times 10^{-3} (x^2+y^2) \\
+c &= 10^{-2} + i \times 3 \times 10^{-3} (x^2+y^2)
+\end{align}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{figs/20230110_radial_imag/coeff_shear.pdf}
+\includegraphics[width=0.48\textwidth]{figs/20230110_radial_imag/2point.pdf}
+\includegraphics[width=0.48\textwidth]{figs/20230110_radial_imag/3point.pdf}
+\caption{Radial coefficients. PSF number thinned by factor of 100.}
+\label{fig:radial}
+\end{figure}
+
+\newpage
+\subsection{Model from \cite{jarvis_telescope_2008}}
+
+\begin{align}
+\Delta \alpha \times \Delta \delta &= 1.2 \degree \times 1.2 \degree = R\times R \\
+n_\star &= 1.2 \times 1.2 \times 10^5 \\
+d &= -0.006 + \Re{\big( (0.009 - 0.003i) \times (x - i y) / R \big)} \\
+s &= 0 \\
+a &= 0.014 - 0.011 i + (0.001 - 0.002 i) * (x + i y) / R \\
+c &= -0.039 + i \times -0.010
+\end{align}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\textwidth]{figs/20230111_mike_paper/coeff_shear.pdf}
+\includegraphics[width=0.48\textwidth]{figs/20230111_mike_paper/2point.pdf}
+\includegraphics[width=0.48\textwidth]{figs/20230111_mike_paper/3point.pdf}
+\caption{\cite{jarvis_telescope_2008} model. PSF number thinned by factor of 1000.}
+\label{fig:radial}
+\end{figure}
