@@ -44,7 +44,7 @@ c = np.vectorize(lambda x, y: c_real(x, y) + c_imag(x, y) * 1j)
 
 # saving stuff
 # subfolder = "20230110_constant/"
-subfolder = "20230111_mike_paper/"
+subfolder = "20230112_mike_paper/"
 # subfolder = "20230110_radial_imag/"
 out_dir = f"./out/{subfolder}"
 plot_dir = f"./figs/{subfolder}"
@@ -63,9 +63,9 @@ thin_gal = 1000
 alpha=0.5
 
 # 3pt stuff
-rmin = 1
-rmax = 10
-nr = 3
+rmin = 0.5
+rmax = 20
+nr = 10
 
 # 2pt stuff
 twoptrmin = 0.5
@@ -180,23 +180,35 @@ widest = dict(min_sep=rmin, max_sep=rmax, sep_units='arcmin', nbins=nr,
 
 print("narrow")
 ggg1 = treecorr.GGGCorrelation(narrow)
-ggg1.process(cats, comm=comm)
-ggg1.write(out_dir + 'narrow.hdf', write_patch_results=True)
+try:
+    ggg1.read(out_dir + 'narrow.hdf')
+except:
+    ggg1.process(cats, comm=comm)
+    ggg1.write(out_dir + 'narrow.hdf', write_patch_results=True)
 
 print("wide")
 ggg2 = treecorr.GGGCorrelation(wide)
-ggg2.process(cats, comm=comm)
-ggg2.write(out_dir + 'wide.hdf', write_patch_results=True)
+try:
+    ggg2.read(out_dir + 'wide.hdf')
+except:
+    ggg2.process(cats, comm=comm)
+    ggg2.write(out_dir + 'wide.hdf', write_patch_results=True)
 
 print("wider")
 ggg3 = treecorr.GGGCorrelation(wider)
-ggg3.process(cats, comm=comm)
-ggg3.write(out_dir + 'wider.hdf', write_patch_results=True)
+try:
+    ggg3.read(out_dir + 'wider.hdf')
+except:
+    ggg3.process(cats, comm=comm)
+    ggg3.write(out_dir + 'wider.hdf', write_patch_results=True)
 
 print("widest")
 ggg4 = treecorr.GGGCorrelation(widest)
-ggg4.process(cats, comm=comm)
-ggg4.write(out_dir + 'widest.hdf', write_patch_results=True)
+try:
+    ggg4.read(out_dir + 'widest.hdf')
+except:
+    ggg4.process(cats, comm=comm)
+    ggg4.write(out_dir + 'widest.hdf', write_patch_results=True)
 
 
 #########################
