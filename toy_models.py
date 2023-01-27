@@ -24,27 +24,27 @@ num_den = 100000
 # Zernike polynomials
 
 # mike paper
-d = np.vectorize(lambda x, y: -0.006 + np.real((0.009 - 0.003j) * (x - 1j * y) / rad))
-s = np.vectorize(lambda x, y: 0)
+# d = np.vectorize(lambda x, y: -0.006 + np.real((0.009 - 0.003j) * (x - 1j * y) / rad))
+# s = np.vectorize(lambda x, y: 0)
 
-a = np.vectorize(lambda x, y: 0.014 - 0.011j + (0.001 - 0.002j) * (x + 1j*y) / rad)
-a_real, a_imag = np.vectorize(lambda x, y: np.real(a(x, y))), np.vectorize(lambda x, y: np.imag(a(x, y)))
+# a = np.vectorize(lambda x, y: 0.014 - 0.011j + (0.001 - 0.002j) * (x + 1j*y) / rad)
+# a_real, a_imag = np.vectorize(lambda x, y: np.real(a(x, y))), np.vectorize(lambda x, y: np.imag(a(x, y)))
 
-c_real, c_imag = np.vectorize(lambda x, y: -0.039), np.vectorize(lambda x, y: -0.010)
-c = np.vectorize(lambda x, y: c_real(x, y) + c_imag(x, y) * 1j)
-
-# d = np.vectorize(lambda x, y: 1e-1)
-# s = np.vectorize(lambda x, y: 1e-2)
-
-# a_real, a_imag = np.vectorize(lambda x, y: 1e-2), np.vectorize(lambda x, y: np.sqrt(x**2+y**2) * 3e-3) #
-# a = np.vectorize(lambda x, y: a_real(x, y) + a_imag(x, y) * 1j)
-
-# c_real, c_imag = np.vectorize(lambda x, y: 1e-2), np.vectorize(lambda x, y: np.sqrt(x**2+y**2) * 3e-3)
+# c_real, c_imag = np.vectorize(lambda x, y: -0.039), np.vectorize(lambda x, y: -0.010)
 # c = np.vectorize(lambda x, y: c_real(x, y) + c_imag(x, y) * 1j)
 
+d = np.vectorize(lambda x, y: 1e-1)
+s = np.vectorize(lambda x, y: 1e-2)
+
+a_real, a_imag = np.vectorize(lambda x, y: 1e-2), np.vectorize(lambda x, y: np.sqrt(x**2+y**2) * 3e-3) #
+a = np.vectorize(lambda x, y: a_real(x, y) + a_imag(x, y) * 1j)
+
+c_real, c_imag = np.vectorize(lambda x, y: 1e-2), np.vectorize(lambda x, y: np.sqrt(x**2+y**2) * 3e-3)
+c = np.vectorize(lambda x, y: c_real(x, y) + c_imag(x, y) * 1j)
+
 # saving stuff
-# subfolder = "20230110_constant/"
-subfolder = "20230112_mike_paper/"
+subfolder = "20230126_constant/"
+# subfolder = "20230112_mike_paper/"
 # subfolder = "20230110_radial_imag/"
 out_dir = f"./out/{subfolder}"
 plot_dir = f"./figs/{subfolder}"
@@ -60,7 +60,7 @@ coeffs = [d, a_real, a_imag, s, c_real, c_imag, \
 labels = [r"$d$", r"$\Re(a)$", r"$\Im(a)$", r"$s$", r"$\Re(c)$", r"$\Im(c)$", \
           r"$\Re(Q)$", r"$\Im(Q)$", r"S"]
 thin_gal = 1000
-alpha=0.5
+alpha = 0.5
 
 # 3pt stuff
 rmin = 0.5
@@ -99,10 +99,12 @@ RAs = np.random.uniform(RA_range[0], RA_range[1], size=num_gal)
 Decs = np.random.uniform(Dec_range[0], Dec_range[1], size=num_gal)
 
 def Q(x, y):
-    return 4 * (d(x, y) + 4/3 * s(x, y)) * a(x, y) + 1/3 * c(x, y)**2
+    return (0.005 + 0*1j) * np.ones_like(x)
+    # return 4 * (d(x, y) + 4/3 * s(x, y)) * a(x, y) + 1/3 * c(x, y)**2
 def S(x, y):
-    return 2 * (d(x, y) + 4/3 * s(x, y)) ** 2 \
-            + 2 * np.abs(a(x, y))**2 + 2/3 * np.abs(c(x, y))**2 + 4/9 * np.abs(s(x, y))**2
+    return 0.025 * np.ones_like(x)
+    # return 2 * (d(x, y) + 4/3 * s(x, y)) ** 2 \
+    #         + 2 * np.abs(a(x, y))**2 + 2/3 * np.abs(c(x, y))**2 + 4/9 * np.abs(s(x, y))**2
 def gamma(x, y):
     return Q(x, y) / S(x, y)
 
