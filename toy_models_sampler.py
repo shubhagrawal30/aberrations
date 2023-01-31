@@ -90,12 +90,20 @@ rnoms, xips, xims, varxips, varxims = np.zeros((num_samples, 37)), np.zeros((num
 
 for ind in range(num_samples):
     Path(out_dir + f"{ind}/").mkdir(parents=True, exist_ok=True)
-    # Zernike polynomials
-    # sample values based on Table 
-    d0, d1 = np.random.normal(-0.006, 0.053), (np.random.normal(0.009, 0.038) - np.random.normal(-0.003, 0.040)*1j)
-    a0, a1 = (np.random.normal(0.014, 0.099) - np.random.normal(-0.011, 0.089)*1j), \
-                (np.random.normal(0.001, 0.066) - np.random.normal(-0.002, 0.055)*1j)
-    c0, c1 = np.random.normal(-0.039, 0.109), np.random.normal(-0.010, 0.124)
+    
+    try:
+        coeff = np.load(out_dir + f'/{ind}/coeff.npz')
+        print("imported previously saved coefficients", coeff)
+        d0, d1, a0, a1, c0, c1 = coeff["coeff"]
+        d0, c0, c1 = np.real(d0), np.real(c0), np.real(c1)
+    except:
+        # Zernike polynomials
+        # sample values based on Table 
+        d0, d1 = np.random.normal(-0.006, 0.053), (np.random.normal(0.009, 0.038) - np.random.normal(-0.003, 0.040)*1j)
+        a0, a1 = (np.random.normal(0.014, 0.099) - np.random.normal(-0.011, 0.089)*1j), \
+                    (np.random.normal(0.001, 0.066) - np.random.normal(-0.002, 0.055)*1j)
+        c0, c1 = np.random.normal(-0.039, 0.109), np.random.normal(-0.010, 0.124)
+        np.savez(out_dir + f'/{ind}/coeff.npz', coeff=[d0, d1, a0, a1, c0, c1])
     
     print(ind, d0, d1, a0, a1, c0, c1)
     coeff_file.write(f"{ind}, {d0}, {d1}, {a0}, {a1}, {c0}, {c1}\n")
