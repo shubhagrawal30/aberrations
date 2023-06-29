@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# ignore cloned GalSim repositiry
+# ignore cloned GalSim and Piff repositiry
 GalSim/
+Piff/
+
+exposures/*.fits
