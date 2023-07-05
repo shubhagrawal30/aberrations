@@ -13,7 +13,7 @@
 #    and/or other materials provided with the distribution.
 
 import numpy as np
-import pickle
+import pickle, os
 import galsim
 import time
 import piff
@@ -243,8 +243,8 @@ def getLineParameters(xpos, ypos, gamma):
     return [xpos - np.cos(angle)*length/2, xpos + np.cos(angle)*length/2], \
             [ypos - np.sin(angle)*length/2, ypos + np.sin(angle)*length/2]
 
-def make_one_exposure(ind, seed=1100, out_dir="./exposures/", \
-                      nstars=10000, optics_type='Nominal'):
+def make_one_exposure(ind, nstars=10000, seed=1100, out_dir="./exposures/", \
+                      optics_type='Nominal'):
     start = time.time()
     print(f"Making exposure {ind}", flush=True)
     u, v, g1, g2, flag, params = calculate_star_shapes(seed, nstars, optics_type)
@@ -257,14 +257,13 @@ def make_one_exposure(ind, seed=1100, out_dir="./exposures/", \
     return u, v, g1, g2
 
 def make_one_exposure_wrapper(args):
-    ind, = args
-    try:
-        # check if exposure already exists
+    ind, overwrite, nstars = args
+    if not overwrite and os.path.exists(f"./exposures/optic_shapes{ind}.fits"):
+        print(f"Exposure {ind} already exists", flush=True)
         with fits.open(f"./exposures/optic_shapes{ind}.fits") as hdul:
             print(f"Exposure {ind} already exists", flush=True)
             return hdul[1].data['x'], hdul[1].data['y'], hdul[1].data['g1'], hdul[1].data['g2']
-    except:
-        return make_one_exposure(ind, 1100*ind)
+    return make_one_exposure(ind, nstars, 1100*ind)
 
 if __name__ == '__main__':
     n_exposures = 25
@@ -272,8 +271,10 @@ if __name__ == '__main__':
     scaling_factor = 5
     skip_factor = 2
     plot_margin = 0.15
+    nstars = 10000
+    overwrite = False
 
-    args = zip(range(n_exposures))
+    args = zip(range(n_exposures), repeat(overwrite), repeat(nstars))
     pool = mp.Pool(processes=25)
     results = pool.map(make_one_exposure_wrapper, args)
     pool.close()
